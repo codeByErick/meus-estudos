@@ -1,0 +1,16 @@
+import socket
+import sys
+
+arg = sys.argv #ARGUMENTOS PARA PASSAR COMO PARAMETRO
+host = arg[1] #PEGA O SEGUNDO ARGUMENTO SABENDO QUE O PRIMEIRO [0] E O NOME DO ARQUIVO
+port =int(arg[2]) #PEGA O TERCEIRO ARGUMENTO QUE E A PORTA
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #CRIA A CONEXAO
+s.connect((host, port)) #CONECTA COM O HOST NA PORTA DEFINIDA
+print(f'CONECTADO COM O HOST: {host}') #MENSAGEM DE AVISO
+
+while True: #MANTEM A CONEXAO ATIVA
+	msg = input('>>>')
+	s.send(msg.encode()) #ENVIA A MENSAGEM, PRECISA CODIFICAR PORQUE NAO ACEITA STRING
+	resposta = s.recv(1024).decode() #RECEBER A RESPOSTA DECODIFICADA
+	print('SERVER:', resposta) #MOSTRA A RESPOSTA
